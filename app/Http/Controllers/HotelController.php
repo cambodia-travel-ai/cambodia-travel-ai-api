@@ -11,9 +11,73 @@ class HotelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $hotels = Hotel::all();
+        $query = Hotel::query();
+
+        // Search by name, description, or address
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter by province
+        if ($request->has('province_id')) {
+            $query->where('province_id', $request->get('province_id'));
+        }
+
+        // Filter by destination
+        if ($request->has('destination_id')) {
+            $query->where('destination_id', $request->get('destination_id'));
+        }
+
+        // Minimum rating
+        if ($request->has('min_rating')) {
+            $query->where('rating', '>=', $request->get('min_rating'));
+        }
+
+        // Minimum price per night
+        if ($request->has('min_price')) {
+            $query->where('price_per_night', '>=', $request->get('min_price'));
+        }
+
+        // Maximum price per night
+        if ($request->has('max_price')) {
+            $query->where('price_per_night', '<=', $request->get('max_price'));
+        }
+
+        // Sorting
+        $sortBy = $request->get('sort_by', 'created_at');
+        $sortOrder = $request->get('sort_order', 'desc');
+
+        // Validate sort fields
+        $validSortBy = ['name', 'rating', 'price_per_night', 'created_at'];
+        $validSortOrder = ['asc', 'desc'];
+
+        if (!in_array($sortBy, $validSortBy)) {
+            $sortBy = 'created_at';
+        }
+        if (!in_array($sortOrder, $validSortOrder)) {
+            $sortOrder = 'desc';
+        }
+
+        $query->orderBy($sortBy, $sortOrder);
+
+        // Pagination
+        $perPage = $request->get('per_page', 15);
+        $maxPerPage = 50;
+
+        if ($perPage > $maxPerPage) {
+            $perPage = $maxPerPage;
+        }
+
+        $page = $request->get('page', 1);
+
+        $hotels = $query->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json([
             'success' => true,
