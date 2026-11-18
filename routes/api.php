@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\RestaurantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::get('/hotels/{id}', [HotelController::class, 'show']);
     Route::put('/hotels/{id}', [HotelController::class, 'update']);
     Route::delete('/hotels/{id}', [HotelController::class, 'destroy']);
-// });
+
+// Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/restaurants', [RestaurantController::class, 'index']);
+    Route::post('/restaurants', [RestaurantController::class, 'store']);
+    Route::get('/restaurants/{id}', [RestaurantController::class, 'show']);
+    Route::put('/restaurants/{id}', [RestaurantController::class, 'update']);
+    Route::delete('/restaurants/{id}', [RestaurantController::class, 'destroy']);
+ // });
