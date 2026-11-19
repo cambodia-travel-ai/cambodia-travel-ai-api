@@ -1,0 +1,119 @@
+{
+  "info": {
+    "name": "Cambodia Travel AI API",
+    "description": "Destination Management REST API with Base64 image storage (Laravel 10)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8123",
+      "type": "string"
+    },
+    {
+      "key": "png_data_uri",
+      "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+      "type": "string"
+    },
+    {
+      "key": "png_raw",
+      "value": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Provinces",
+      "item": [
+        {
+          "name": "GET /api/provinces",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/provinces", "host": ["{{base_url}}"], "path": ["api", "provinces"] }
+          }
+        },
+        {
+          "name": "GET /api/provinces/{id}",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/provinces/1", "host": ["{{base_url}}"], "path": ["api", "provinces", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "GET /api/categories",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/categories", "host": ["{{base_url}}"], "path": ["api", "categories"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Destinations",
+      "item": [
+        {
+          "name": "GET /api/destinations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/destinations", "host": ["{{base_url}}"], "path": ["api", "destinations"] }
+          }
+        },
+        {
+          "name": "GET /api/destinations/{id}",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/destinations/1", "host": ["{{base_url}}"], "path": ["api", "destinations", "1"] }
+          }
+        },
+        {
+          "name": "POST /api/destinations",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"province_id\": 1,\n  \"category_id\": 1,\n  \"name\": \"Angkor Wat\",\n  \"description\": \"Famous temple complex\",\n  \"address\": \"Siem Reap, Cambodia\",\n  \"latitude\": 13.4125,\n  \"longitude\": 103.8670,\n  \"images\": [\n    \"{{png_data_uri}}\",\n    \"{{png_raw}}\"\n  ]\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/destinations", "host": ["{{base_url}}"], "path": ["api", "destinations"] }
+          }
+        },
+        {
+          "name": "PUT /api/destinations/{id}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Angkor Wat Updated\",\n  \"images\": [\n    \"{{png_raw}}\"\n  ]\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/destinations/1", "host": ["{{base_url}}"], "path": ["api", "destinations", "1"] }
+          }
+        },
+        {
+          "name": "DELETE /api/destinations/{id}",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/destinations/1", "host": ["{{base_url}}"], "path": ["api", "destinations", "1"] }
+          }
+        }
+      ]
+    }
+  ]
+}
