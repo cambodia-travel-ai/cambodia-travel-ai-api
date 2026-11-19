@@ -4,29 +4,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Favorite;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Destination extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'province_id',
+        'category_id',
         'name',
-        'location',
         'description',
-        'category',
-        'image',
+        'address',
         'latitude',
         'longitude',
+        'images',
     ];
 
-    public function favorites()
+    protected $casts = [
+        'images' => 'array',
+        'latitude' => 'float',
+        'longitude' => 'float',
+    ];
+
+    public function province(): BelongsTo
     {
-        return $this->hasMany(Favorite::class);
+        return $this->belongsTo(Province::class);
     }
 
-    public function reviews()
+    public function category(): BelongsTo
     {
-        return $this->hasMany(Review::class);
+        return $this->belongsTo(Category::class);
     }
+
 }
