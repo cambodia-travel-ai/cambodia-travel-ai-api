@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('hotels', function (Blueprint $table) {
             $table->id();
             $table->foreignId('province_id')->constrained('provinces');
-            $table->foreignId('destination_id')->nullable()->constrained('destinations')->nullOnDelete();
+            $table->foreignId('destination_id')->nullable();
             $table->string('name');
             $table->text('description')->nullable();
             $table->text('address')->nullable();
